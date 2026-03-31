@@ -5,14 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DGO × Himalaya TV | Scope of Work 2026</title>
     
-    <!-- Montserrat: Clean & Strong -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Montserrat: Ultra Bold & Clean -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Tailwind & Framer Motion -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- Babel for React in Browser -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script>
@@ -22,11 +23,8 @@
                     fontFamily: { montserrat: ['Montserrat', 'sans-serif'] },
                     colors: {
                         dgo: {
-                            purple: '#8b5cf6',
-                            pink: '#ec4899',
-                            magenta: '#d946ef',
-                            red: '#ef4444',
-                            deep: '#030305'
+                            purple: '#8b5cf6', pink: '#ec4899', red: '#ef4444',
+                            bg: '#050608', card: '#12141c'
                         }
                     }
                 }
@@ -35,272 +33,241 @@
     </script>
 
     <style>
+        /* Premium Animated Background - Moves slowly like a nebula */
         body { 
-            background-color: #030305; 
+            background: linear-gradient(135deg, #050608 0%, #0d0f17 50%, #050608 100%);
             color: #ffffff; 
             font-family: 'Montserrat', sans-serif;
+            margin: 0;
             overflow-x: hidden;
         }
 
-        /* Animated Mesh Gradient Background */
-        .gradient-sphere {
+        .mesh-glow {
             position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.15;
-            pointer-events: none;
+            width: 80vw; height: 80vh;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, transparent 70%);
+            top: -20%; left: -20%; z-index: -1;
+            animation: drift 20s infinite alternate;
+        }
+        .mesh-glow-2 {
+            position: fixed;
+            width: 80vw; height: 80vh;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.05) 0%, transparent 70%);
+            bottom: -20%; right: -20%; z-index: -1;
+            animation: drift 25s infinite alternate-reverse;
         }
 
-        .heading-xl { font-weight: 900; line-height: 0.85; letter-spacing: -0.05em; text-transform: uppercase; }
-        .heading-lg { font-weight: 800; letter-spacing: -0.02em; text-transform: uppercase; }
+        @keyframes drift { from { transform: translate(0, 0); } to { transform: translate(10%, 10%); } }
+
+        /* Typography & Bento */
+        .heading-strong { font-weight: 900; letter-spacing: -0.05em; text-transform: uppercase; line-height: 0.9; }
         
         .bento-card {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 32px;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
         }
 
         .bento-card:hover {
             background: rgba(255, 255, 255, 0.07);
             border-color: #ec4899;
-            transform: scale(1.01);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5);
         }
 
         .text-gradient {
-            background: linear-gradient(to right, #8b5cf6, #ec4899, #ef4444);
+            background: linear-gradient(90deg, #8b5cf6, #ec4899, #ef4444);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .nav-link::after {
-            content: '';
-            display: block;
-            width: 0;
-            height: 2px;
-            background: #ec4899;
-            transition: width .3s;
-        }
-        .nav-link:hover::after { width: 100%; }
+        /* Subtle Fade In Animation */
+        .reveal { animation: reveal 1.2s cubic-bezier(0.19, 1, 0.22, 1) forwards; opacity: 0; }
+        @keyframes reveal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-thumb { background: #8b5cf6; }
+        /* Logo Floating */
+        .logo-float { animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0px); } }
     </style>
 </head>
 <body>
+
+    <div class="mesh-glow"></div>
+    <div class="mesh-glow-2"></div>
 
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
-        const { motion, AnimatePresence } = FramerMotion;
 
         const App = () => {
-            const [selected, setSelected] = useState(null);
+            const [activeCard, setActiveCard] = useState(null);
 
-            const ownershipData = [
-                { id: 1, title: "Platform Management", emoji: "⚡", size: "md:col-span-2", 
-                  content: "Full ownership of the digital broadcasting ecosystem and OTT streaming infrastructure. Includes delivery of high-quality live streaming across multiple devices and network conditions, optimized for adaptive performance." },
-                { id: 2, title: "Subscription & Revenue", emoji: "💸", size: "md:col-span-1",
-                  content: "Direct management of pricing, bundling strategies, and promotional offers. Integrating all payment channels including wallets and telecom operators with real-time revenue tracking." },
-                { id: 3, title: "Digital Product Differentiation", emoji: "🎨", size: "md:col-span-1",
-                  content: "Exclusive DGO localized commentary. Implementation of multi-feed or dual-audio capabilities and fan-driven engagement formats like watch-along experiences." },
-                { id: 4, title: "Content Production", emoji: "🎞️", size: "md:col-span-2",
-                  content: "Lead creation of digital-first formats: match highlights (DGO Exclusive), behind-the-scenes coverage, and platform-native storytelling designed for online consumption." },
-                { id: 5, title: "Brand Partnerships", emoji: "🤝", size: "md:col-span-2",
-                  content: "Leading monetization initiatives with a focus on B2B subscriber acquisition and strategic models across telecoms, ISPs, and digital wallets for large-scale integration." },
-                { id: 6, title: "Customer Acquisition", emoji: "🎯", size: "md:col-span-1",
-                  content: "Full ownership of the digital marketing funnel and performance marketing. Exclusive launch of the 'Early Bird Season Pass' through the DGO platform." },
-                { id: 7, title: "Technical Readiness", emoji: "🛡️", size: "md:col-span-3",
-                  content: "Platform stability and scalability for peak traffic scenarios. Real-time monitoring of uptime, proactive issue detection, and structured incident response mechanisms." }
+            const dgoSections = [
+                { id: 1, emoji: "🌐", span: "md:col-span-2", t: "Platform Management", d: "DGO assumes full ownership of the digital broadcasting ecosystem and OTT streaming infrastructure. Delivering high-quality live streaming optimized for adaptive performance across all network conditions and bandwidth environments." },
+                { id: 2, emoji: "💰", span: "md:col-span-1", t: "Subscription & Revenue", d: "Management of the subscription ecosystem, pricing, bundling strategies, and promotional offers. Integration of all payment channels (Wallets, Telecom) with real-time revenue tracking frameworks." },
+                { id: 3, emoji: "🤝", span: "md:col-span-1", t: "Brand Partnerships", d: "Leading all monetization initiatives with a primary focus on B2B subscriber acquisition and ecosystem-led growth through telecom and ISP distribution integrations." },
+                { id: 4, emoji: "✨", span: "md:col-span-2", t: "Exclusive Digital Differentiation", d: "Introduction of Localized Commentary, exclusively on DGO. Implementation of multi-feed views, dual-audio, and fan-engagement layers like interactive watch-along experiences." },
+                { id: 5, emoji: "🎬", span: "md:col-span-1", t: "Content (Digital First)", d: "Lead creation of match highlights (Exclusively distributed on DGO for subscribers), behind-the-scenes coverage, and platform-native storytelling formats." },
+                { id: 6, emoji: "🚀", span: "md:col-span-2", t: "Customer Acquisition", d: "Ownership of the performance marketing funnel and corporate bundling. The Early Bird Season Pass will be exclusively launched and made available through the DGO platform." },
+                { id: 7, emoji: "🛡️", span: "md:col-span-3", t: "Technical Readiness", d: "Ensuring scalability for peak traffic, payment gateway stability, and structured incident response mechanisms to ensure uninterrupted service during the tournament window." }
             ];
 
             return (
-                <div className="relative">
-                    {/* Background Visuals */}
-                    <div className="gradient-sphere bg-dgo-purple w-[600px] h-[600px] top-[-20%] left-[-10%]" />
-                    <div className="gradient-sphere bg-dgo-pink w-[500px] h-[500px] bottom-[-10%] right-[-10%]" />
-                    <div className="gradient-sphere bg-dgo-red w-[400px] h-[400px] top-[40%] left-[40%]" />
-
+                <div className="px-6 md:px-12">
                     {/* Navigation */}
-                    <nav className="fixed top-0 w-full z-50 px-8 py-6 flex justify-between items-center bg-dgo-deep/80 backdrop-blur-xl border-b border-white/5">
-                        <div className="flex items-center gap-3">
-                            <img src="logo.png" alt="DGO" className="h-10 w-auto object-contain" />
-                            <div className="h-6 w-px bg-white/20 mx-2" />
-                            <span className="heading-lg text-lg tracking-tighter">Himalaya TV</span>
+                    <nav className="fixed top-0 left-0 w-full z-50 p-8 flex justify-between items-center backdrop-blur-md border-b border-white/5">
+                        <div className="flex items-center gap-4">
+                            <img src="logo.png" className="h-10 object-contain" onError={(e) => e.target.style.display='none'} />
+                            <div className="w-[1px] h-6 bg-white/20 mx-2"></div>
+                            <span className="heading-strong text-lg tracking-tighter">Himalaya TV</span>
                         </div>
-                        <div className="hidden md:flex gap-10 font-bold text-[10px] uppercase tracking-[0.4em]">
-                            <a href="#principles" className="nav-link text-gray-400 hover:text-white transition-all">Principles</a>
-                            <a href="#dgo" className="nav-link text-gray-400 hover:text-white transition-all">Ownership</a>
-                            <a href="#joint" className="nav-link text-gray-400 hover:text-white transition-all">Joint Ops</a>
-                            <a href="#governance" className="nav-link text-gray-400 hover:text-white transition-all">Governance</a>
+                        <div className="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-gray-500">
+                            <a href="#principles" className="hover:text-dgo-pink transition-all">Principles</a>
+                            <a href="#ownership" className="hover:text-dgo-pink transition-all">DGO Scope</a>
+                            <a href="#joint" className="hover:text-dgo-pink transition-all">Joint Ops</a>
+                            <a href="#governance" className="hover:text-dgo-pink transition-all">Governance</a>
                         </div>
                     </nav>
 
                     {/* Hero Section */}
-                    <section className="min-h-screen flex flex-col justify-center px-8 md:px-20 pt-20">
-                        <motion.div 
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 1 }}
-                            className="max-w-6xl"
-                        >
-                            <img src="logo.png" alt="Logo" className="h-24 md:h-32 mb-10 opacity-90 drop-shadow-[0_0_20px_rgba(236,72,153,0.3)]" />
-                            <h1 className="heading-xl text-[4.5rem] md:text-[9rem] mb-6">
-                                <span className="block text-white">Scope of</span>
-                                <span className="text-gradient block">Work</span>
-                            </h1>
-                            <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mt-10">
-                                <div className="px-6 py-2 border border-dgo-pink text-dgo-pink text-[10px] font-black uppercase tracking-[0.5em] rounded-full">
-                                    FIFA World Cup 2026 — Nepal Market
-                                </div>
-                                <p className="text-gray-400 text-lg md:text-xl font-light uppercase tracking-widest leading-none">
-                                    Strategic Executive Framework
-                                </p>
-                            </div>
-                        </motion.div>
-                    </section>
+                    <header className="min-h-screen flex flex-col justify-center items-center pt-20 text-center">
+                        <div className="logo-float mb-12">
+                            <img src="logo.png" className="h-32 md:h-44 object-contain drop-shadow-[0_0_30px_rgba(236,72,153,0.3)]" />
+                        </div>
+                        <h1 className="heading-strong text-6xl md:text-[8rem] reveal">
+                            Scope of<br />
+                            <span className="text-gradient">Work</span>
+                        </h1>
+                        <div className="mt-12 flex flex-col md:flex-row items-center gap-6 reveal" style={{animationDelay: '0.2s'}}>
+                            <div className="px-6 py-2 border-2 border-white/10 rounded-full font-bold text-[10px] tracking-[0.5em] uppercase">FIFA World Cup 2026</div>
+                            <div className="w-2 h-2 rounded-full bg-dgo-pink"></div>
+                            <p className="text-gray-400 font-light tracking-[0.2em] uppercase text-sm">Nepal Strategic Framework</p>
+                        </div>
+                    </header>
 
-                    {/* Guiding Principles */}
-                    <section id="principles" className="py-40 px-8 md:px-20 border-t border-white/5">
-                        <div className="grid lg:grid-cols-2 gap-20">
-                            <div>
-                                <h2 className="heading-lg text-4xl mb-8">01. Guiding <span className="text-gradient">Principles</span></h2>
-                                <p className="text-gray-400 text-lg leading-relaxed font-light mb-10">
-                                    This engagement shall operate as a joint partnership, with clearly aligned commercial objectives 
-                                    and success metrics across both parties.
+                    {/* 01. Principles */}
+                    <section id="principles" className="py-40 max-w-7xl mx-auto">
+                        <div className="grid lg:grid-cols-2 gap-20 items-center">
+                            <div className="reveal">
+                                <h2 className="heading-strong text-5xl mb-8 leading-tight italic">01.<br /><span className="text-gradient underline decoration-dgo-pink decoration-4 underline-offset-8">Guiding Principles</span></h2>
+                                <p className="text-gray-400 text-lg font-light leading-relaxed mb-8">
+                                    The execution is anchored on a <strong className="text-white">“One Product, Dual Platform”</strong> framework, where Himalaya TV leads linear broadcast while DGO drives the digital streaming ecosystem.
                                 </p>
                             </div>
-                            <div className="space-y-12">
+                            <div className="grid gap-6 reveal" style={{animationDelay: '0.4s'}}>
                                 {[
-                                    { t: "ONE PRODUCT, DUAL PLATFORM", d: "Execution anchored on a framework where Himalaya TV leads linear broadcast while DGO drives the digital streaming ecosystem." },
-                                    { t: "JOINT ACCOUNTABILITY", d: "Both parties remain jointly accountable for overall revenue performance, audience growth, and market impact." },
-                                    { t: "ACTIVE COLLABORATION", d: "A spirit of mutual respect, ensuring all key ideas and execution plans are openly discussed prior to implementation." }
+                                    { t: "Joint Partnership", d: "Clearly aligned commercial objectives and success metrics across both parties." },
+                                    { t: "Unified Consistency", d: "A coordinated approach to ensure consistency in execution and to avoid any overlap or conflict in campaigns." },
+                                    { t: "Mutual Respect", d: "Operation with a spirit of active collaboration, ensuring ideas are discussed prior to implementation." }
                                 ].map((item, i) => (
-                                    <motion.div 
-                                        key={i}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        className="border-l-4 border-dgo-pink pl-8 py-2"
-                                    >
-                                        <h4 className="heading-lg text-lg mb-2">{item.t}</h4>
-                                        <p className="text-gray-500 text-sm">{item.d}</p>
-                                    </motion.div>
+                                    <div key={i} className="p-8 bento-card">
+                                        <h4 className="heading-strong text-sm text-dgo-pink mb-3 tracking-widest">{item.t}</h4>
+                                        <p className="text-gray-400 text-xs leading-relaxed">{item.d}</p>
+                                    </div>
                                 ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* DGO Core Ownership Bento Grid */}
-                    <section id="dgo" className="py-40 px-8 md:px-20 bg-white/[0.01]">
-                        <div className="mb-20 flex justify-between items-end">
-                            <div>
-                                <h2 className="heading-lg text-5xl mb-4">02. DGO <span className="text-gradient">Core Ownership</span></h2>
-                                <p className="text-gray-500 text-xs font-bold uppercase tracking-[0.4em]">Section 2.0 Scope of Work Detail</p>
-                            </div>
-                            <div className="text-[10px] font-black text-dgo-pink animate-pulse hidden md:block tracking-widest">CLICK FOR DETAIL</div>
+                    {/* 02. DGO Ownership Bento Grid */}
+                    <section id="ownership" className="py-40 max-w-7xl mx-auto">
+                        <div className="mb-20 reveal">
+                            <h2 className="heading-strong text-6xl mb-4">02. DGO Scope 🕹️</h2>
+                            <p className="text-gray-500 uppercase tracking-[0.3em] font-bold text-[10px]">End-To-End Digital Ownership Areas</p>
                         </div>
 
-                        <div className="grid md:grid-cols-3 gap-6">
-                            {ownershipData.map((item) => (
-                                <motion.div 
-                                    key={item.id}
-                                    layout
-                                    onClick={() => setSelected(selected === item.id ? null : item.id)}
-                                    className={`bento-card p-10 rounded-[2.5rem] cursor-pointer relative overflow-hidden group ${item.size} ${selected === item.id ? 'border-dgo-pink bg-white/5 shadow-[0_0_40px_rgba(236,72,153,0.15)]' : ''}`}
+                        <div className="grid md:grid-cols-3 gap-6 auto-rows-min reveal" style={{animationDelay: '0.3s'}}>
+                            {dgoSections.map((s) => (
+                                <div 
+                                    key={s.id} 
+                                    className={`bento-card p-10 group ${s.span} ${activeCard === s.id ? 'border-dgo-pink bg-white/[0.05]' : ''}`}
+                                    onClick={() => setActiveCard(activeCard === s.id ? null : s.id)}
                                 >
-                                    <div className="flex justify-between items-start mb-12">
-                                        <span className="text-4xl grayscale group-hover:grayscale-0 transition-all">{item.emoji}</span>
-                                        <div className={`w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-xs font-black transition-all ${selected === item.id ? 'bg-dgo-pink rotate-45' : ''}`}>+</div>
+                                    <div className="flex justify-between items-start mb-10">
+                                        <span className="text-4xl filter grayscale group-hover:grayscale-0 transition-all">{s.emoji}</span>
+                                        <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-[10px] font-black group-hover:bg-dgo-pink transition-all ${activeCard === s.id ? 'bg-dgo-pink rotate-45' : ''}`}>+</div>
                                     </div>
-                                    <h3 className="heading-lg text-2xl mb-4 leading-none">{item.title}</h3>
-                                    
-                                    <AnimatePresence>
-                                        {selected === item.id ? (
-                                            <motion.p 
-                                                initial={{ opacity: 0, height: 0 }}
-                                                animate={{ opacity: 1, height: "auto" }}
-                                                exit={{ opacity: 0, height: 0 }}
-                                                className="text-gray-300 text-sm leading-relaxed mt-4"
-                                            >
-                                                {item.content}
-                                            </motion.p>
-                                        ) : (
-                                            <p className="text-gray-500 text-xs uppercase tracking-widest opacity-50">View Details</p>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.div>
+                                    <h3 className="heading-strong text-2xl mb-6 tracking-tight">{s.t}</h3>
+                                    <p className={`text-gray-400 text-sm leading-relaxed transition-all duration-500 ${activeCard === s.id ? 'opacity-100 max-h-40' : 'opacity-40 line-clamp-2'}`}>
+                                        {s.d}
+                                    </p>
+                                    {activeCard === s.id && (
+                                        <div className="mt-8 pt-8 border-t border-white/5 flex gap-4">
+                                            <span className="text-[10px] font-black uppercase text-dgo-pink">Exclusive Digital Lead</span>
+                                            <span className="text-[10px] font-black uppercase text-gray-600">S.O.W. Section 2</span>
+                                        </div>
+                                    )}
+                                </div>
                             ))}
                         </div>
                     </section>
 
-                    {/* Joint Responsibility Section */}
-                    <section id="joint" className="py-40 px-8 md:px-20">
-                        <div className="grid lg:grid-cols-2 gap-20 items-center">
-                            <div className="space-y-8 order-2 lg:order-1">
-                                <h2 className="heading-lg text-4xl">03. Joint <span className="text-gradient">Responsibility</span></h2>
+                    {/* 03. Joint Operations */}
+                    <section id="joint" className="py-40 bg-white/[0.02] -mx-12 px-12 border-y border-white/5">
+                        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+                            <div className="reveal">
+                                <h2 className="heading-strong text-5xl mb-12">03. Joint Operations ⚙️</h2>
                                 <div className="space-y-4">
                                     {[
                                         "Compliance with FIFA Brand Guidelines",
-                                        "Co-created Match Day Flagship Shows",
-                                        "Press Meet and Official Launch Events",
-                                        "Shared War Room and Live Operations",
-                                        "Crisis and Incident Communications",
-                                        "Major Cross-Platform Partner Integrations"
-                                    ].map((text, i) => (
-                                        <div key={i} className="flex items-center gap-6 p-6 bento-card rounded-2xl group hover:pl-10 transition-all">
-                                            <div className="w-2 h-2 rounded-full bg-dgo-red shadow-[0_0_10px_#ef4444]" />
-                                            <span className="heading-lg text-[11px] tracking-[0.2em]">{text}</span>
+                                        "Official Press Meet & Launch Event Execution",
+                                        "Shared War Room & Live Operational Structure",
+                                        "Crisis & Incident Communication Protocols",
+                                        "Match Day Shows (Co-created & Distributed)",
+                                        "Major Partner Integrations Across Platforms"
+                                    ].map((txt, i) => (
+                                        <div key={i} className="flex items-center gap-6 p-6 bento-card rounded-2xl group hover:border-dgo-red/40 transition-all">
+                                            <div className="w-2 h-2 rounded-full bg-dgo-red group-hover:scale-150 transition-all"></div>
+                                            <span className="heading-strong text-[11px] tracking-widest">{txt}</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                            <div className="order-1 lg:order-2">
-                                <div className="p-16 bento-card rounded-[4rem] border-dgo-red/20 bg-dgo-red/[0.03]">
-                                    <h4 className="heading-lg text-dgo-red text-2xl mb-8 tracking-tighter italic">Himalaya TV Specifics 📡</h4>
-                                    <p className="text-gray-400 text-sm leading-loose font-light">
-                                        Primarily leading the linear broadcast execution, ensuring high-quality 
-                                        television coverage and nationwide reach. Acting as a critical 
-                                        <strong> top-of-funnel driver</strong> for the overall ecosystem 
-                                        through linear inventory and mass awareness.
-                                    </p>
-                                </div>
+                            <div className="p-16 bento-card border-dgo-red/20 bg-dgo-red/[0.03] reveal" style={{animationDelay: '0.2s'}}>
+                                <h3 className="heading-strong text-4xl mb-8 text-dgo-red italic leading-none">Himalaya TV Support</h3>
+                                <ul className="space-y-8 text-gray-400 text-sm font-light leading-loose">
+                                    <li>Primarily lead the linear broadcast execution, ensuring nationwide reach and high-quality television coverage.</li>
+                                    <li>Drive mass awareness and audience reach acting as a critical top-of-funnel driver for the overall ecosystem.</li>
+                                    <li>Support brand partnerships through linear inventory, contributing to integrated sponsorship opportunities.</li>
+                                </ul>
                             </div>
                         </div>
                     </section>
 
-                    {/* Governance */}
-                    <section id="governance" className="py-40 px-8 md:px-20 bg-white/[0.01]">
-                        <div className="max-w-4xl mx-auto text-center mb-20">
-                            <h2 className="heading-lg text-5xl mb-6 uppercase tracking-tighter">Governance <span className="text-gradient">& Reporting</span></h2>
-                        </div>
-                        <div className="grid md:grid-cols-2 gap-10">
-                            <div className="p-12 bento-card rounded-[3rem] text-center">
-                                <h5 className="heading-lg text-4xl mb-4 text-dgo-pink">WEEKLY</h5>
-                                <p className="text-gray-400 text-sm font-light">Review cadence covering revenue performance, subscriber growth, and strategic alignment.</p>
+                    {/* 04. Governance */}
+                    <section id="governance" className="py-40 max-w-4xl mx-auto text-center reveal">
+                        <h2 className="heading-strong text-5xl mb-16">04. Governance 📊</h2>
+                        <div className="bento-card p-20 grid md:grid-cols-2 gap-10">
+                            <div>
+                                <div className="heading-strong text-5xl text-dgo-pink mb-4">WEEKLY</div>
+                                <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-6">Strategic Reviews</div>
+                                <p className="text-gray-400 text-xs">Primary forum for course correction, revenue analysis, and strategic alignment.</p>
                             </div>
-                            <div className="p-12 bento-card rounded-[3rem] text-center">
-                                <h5 className="heading-lg text-4xl mb-4 text-dgo-pink">DAILY</h5>
-                                <p className="text-gray-400 text-sm font-light">Operational reporting tracking platform performance, incident logs, and execution status.</p>
+                            <div className="border-l border-white/5 hidden md:block"></div>
+                            <div>
+                                <div className="heading-strong text-5xl text-dgo-pink mb-4">DAILY</div>
+                                <div className="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-6">War Room Ops</div>
+                                <p className="text-gray-400 text-xs">Real-time tracking of platform performance, incident logs, and execution status.</p>
                             </div>
                         </div>
                     </section>
 
-                    {/* Footer / Call to Action */}
-                    <footer className="py-60 px-8 text-center relative">
-                        <div className="max-w-4xl mx-auto">
-                            <h2 className="heading-xl text-[4rem] md:text-[6rem] mb-12">
-                                UNIFIED <span className="text-gradient">SUCCESS</span>
+                    {/* Final Footer */}
+                    <footer className="py-60 text-center relative">
+                        <div className="max-w-4xl mx-auto reveal">
+                            <h2 className="heading-strong text-5xl md:text-[6rem] mb-12">
+                                Shared Vision.<br />
+                                <span className="text-gradient">Unified Success.</span>
                             </h2>
-                            <p className="text-gray-500 uppercase tracking-[0.8em] text-[10px] font-black mb-16">
-                                Nepal's Premium Broadcast Future
-                            </p>
-                            <div className="flex justify-center items-center gap-10 grayscale hover:grayscale-0 transition-all">
-                                <img src="logo.png" alt="DGO" className="h-10 opacity-50" />
-                                <div className="w-px h-6 bg-white/20" />
-                                <span className="heading-lg text-sm text-gray-500 tracking-[0.3em]">Himalaya TV</span>
+                            <div className="flex justify-center items-center gap-10 opacity-30">
+                                <img src="logo.png" className="h-8" onError={(e) => e.target.style.display='none'} />
+                                <div className="w-[1px] h-4 bg-white"></div>
+                                <span className="heading-strong text-sm tracking-[0.4em]">Himalaya TV</span>
                             </div>
                         </div>
                     </footer>
