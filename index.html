@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGO × Himalaya TV | FIFA 2026 Scope</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & Framer Motion from CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { montserrat: ['Montserrat', 'sans-serif'] },
+                    colors: {
+                        dgo: {
+                            purple: '#8b5cf6', pink: '#ec4899', magenta: '#d946ef', red: '#ef4444',
+                            dark: '#0a0a0c', card: '#16161d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0a0c; color: white; font-family: 'Montserrat', sans-serif; }
+        .bg-gradient-dgo { background: linear-gradient(to right, #8b5cf6, #ec4899, #ef4444); }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+        const { motion, AnimatePresence, useScroll, useSpring } = FramerMotion;
+
+        // Icons using Lucide
+        const Icon = ({ name, size = 24, className = "" }) => {
+            useEffect(() => { lucide.createIcons(); }, []);
+            return <i data-lucide={name} className={className} style={{width: size, height: size}}></i>;
+        };
+
+        const GradientText = ({ children }) => (
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8b5cf6] via-[#ec4899] to-[#ef4444]">
+                {children}
+            </span>
+        );
+
+        const InfoCard = ({ icon, title, points }) => (
+            <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="bg-[#16161d] border border-white/10 p-8 rounded-2xl hover:border-[#ec4899]/50 transition-all"
+            >
+                <div className="mb-4 text-[#ec4899]"><Icon name={icon} size={32} /></div>
+                <h3 className="text-xl font-bold mb-4 uppercase tracking-tight">{title}</h3>
+                <ul className="space-y-2">
+                    {points.map((p, i) => (
+                        <li key={i} className="text-gray-400 text-sm flex gap-2">
+                            <span className="text-[#ef4444]">•</span> {p}
+                        </li>
+                    ))}
+                </ul>
+            </motion.div>
+        );
+
+        const App = () => {
+            const { scrollYProgress } = useScroll();
+            const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+            return (
+                <div className="min-h-screen">
+                    <motion.div className="fixed top-0 left-0 right-0 h-1 bg-gradient-dgo z-50 origin-left" style={{ scaleX }} />
+                    
+                    {/* Hero */}
+                    <section className="h-screen flex flex-col justify-center items-center px-10 text-center relative overflow-hidden">
+                        <div className="absolute w-[600px] h-[600px] bg-[#8b5cf6]/10 blur-[120px] rounded-full" />
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
+                            <div className="inline-block py-2 px-6 border border-[#ec4899]/30 rounded-full mb-6 bg-[#ec4899]/5">
+                                <span className="text-xs font-bold tracking-[0.3em] uppercase text-[#ec4899]">Official Scope of Work</span>
+                            </div>
+                            <h1 className="text-6xl md:text-8xl font-extrabold mb-6 tracking-tighter leading-none">
+                                <GradientText>DGO × Himalaya TV</GradientText><br/>
+                                <span className="text-white">FIFA World Cup 2026</span>
+                            </h1>
+                            <p className="text-gray-400 text-xl max-w-2xl mx-auto font-light">Nepal's Unified Digital & Linear Broadcast Ecosystem</p>
+                        </motion.div>
+                    </section>
+
+                    {/* DGO Ownership */}
+                    <section className="py-24 px-10 max-w-7xl mx-auto">
+                        <h2 className="text-4xl font-bold mb-16 text-center italic">DGO Core <GradientText>Ownership</GradientText></h2>
+                        <div className="grid md:grid-cols-3 gap-8">
+                            <InfoCard icon="smartphone" title="Digital Broadcast" points={["OTT infrastructure", "Adaptive streaming", "Multi-device support"]} />
+                            <InfoCard icon="trending-up" title="Revenue Mgmt" points={["Pricing & Bundling", "Payment integrations", "Real-time reporting"]} />
+                            <InfoCard icon="zap" title="Digital Differentiation" points={["Localized commentary", "Exclusive highlights", "Fan engagement layers"]} />
+                        </div>
+                    </section>
+
+                    {/* Joint Section */}
+                    <section className="py-24 px-10 bg-white/5 border-y border-white/10">
+                         <div className="max-w-4xl mx-auto text-center">
+                            <h2 className="text-4xl font-bold mb-12 uppercase tracking-widest italic">Joint <GradientText>Responsibility</GradientText></h2>
+                            <div className="grid md:grid-cols-2 gap-6 text-left">
+                                <div className="p-6 bg-[#0a0a0c] rounded-xl border border-white/5 flex gap-4 items-center">
+                                    <Icon name="shield-check" className="text-[#ec4899]" /> <span>FIFA Brand Compliance</span>
+                                </div>
+                                <div className="p-6 bg-[#0a0a0c] rounded-xl border border-white/5 flex gap-4 items-center">
+                                    <Icon name="users" className="text-[#ec4899]" /> <span>Shared Live Ops War Room</span>
+                                </div>
+                                <div className="p-6 bg-[#0a0a0c] rounded-xl border border-white/5 flex gap-4 items-center">
+                                    <Icon name="message-square" className="text-[#ec4899]" /> <span>Official Press Launch</span>
+                                </div>
+                                <div className="p-6 bg-[#0a0a0c] rounded-xl border border-white/5 flex gap-4 items-center">
+                                    <Icon name="globe" className="text-[#ec4899]" /> <span>Unified Marketing Campaigns</span>
+                                </div>
+                            </div>
+                         </div>
+                    </section>
+
+                    {/* Himalaya Section */}
+                    <section className="py-24 px-10 text-center">
+                        <h2 className="text-4xl font-bold mb-8 text-[#ef4444]">HIMALAYA TV</h2>
+                        <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                            Leading the <strong>Linear Broadcast Execution</strong>, ensuring nationwide television reach and 
+                            driving mass top-of-funnel awareness for the joint ecosystem.
+                        </p>
+                    </section>
+
+                    {/* Governance */}
+                    <section className="py-24 px-10 mb-20">
+                        <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#8b5cf6]/20 to-[#ef4444]/20 p-12 rounded-[3rem] text-center border border-white/10">
+                            <h2 className="text-3xl font-bold mb-6 italic">Governance & <GradientText>Reporting</GradientText></h2>
+                            <p className="text-gray-400 mb-8">Weekly reviews and daily operational reporting during the tournament via the shared war room.</p>
+                            <div className="flex justify-center gap-8">
+                                <div><div className="text-2xl font-bold">100%</div><div className="text-[10px] uppercase text-gray-500">Transparency</div></div>
+                                <div><div className="text-2xl font-bold">Daily</div><div className="text-[10px] uppercase text-gray-500">Incident Logs</div></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer className="py-20 text-center border-t border-white/5 opacity-50">
+                        <p className="text-xs tracking-[0.5em] uppercase">DGO × Himalaya TV | 2026 Strategy</p>
+                    </footer>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
