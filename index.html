@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DGO × Himalaya TV | FIFA 2026</title>
-    <!-- Montserrat Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>DGO × Himalaya TV | FIFA World Cup 2026 Strategy</title>
+    
+    <!-- Fonts: Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- React & Babel -->
+    
+    <!-- React & Babel for logic -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -20,144 +23,368 @@
                     fontFamily: { montserrat: ['Montserrat', 'sans-serif'] },
                     colors: {
                         dgo: {
-                            purple: '#8b5cf6', pink: '#ec4899', red: '#ef4444',
-                            dark: '#0a0a0c', card: '#16161d'
+                            purple: '#8b5cf6',
+                            pink: '#ec4899',
+                            magenta: '#d946ef',
+                            red: '#ef4444',
+                            dark: '#050507',
+                            card: '#0f0f13',
+                            border: 'rgba(255, 255, 255, 0.1)'
                         }
                     }
                 }
             }
         }
     </script>
+
     <style>
-        body { background-color: #0a0a0c; color: white; font-family: 'Montserrat', sans-serif; margin: 0; }
-        .gradient-bg { background: linear-gradient(to right, #8b5cf6, #ec4899, #ef4444); }
-        /* Hide content until React loads */
-        #root:empty { display: none; }
+        body { background-color: #050507; color: #ffffff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        
+        /* Premium Gradients */
+        .text-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #ef4444 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .bg-dgo-gradient {
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #ef4444 100%);
+        }
+
+        .glass-card {
+            background: rgba(15, 15, 19, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(236, 72, 153, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Section dividers */
+        .section-glow {
+            position: absolute;
+            width: 40vw;
+            height: 40vw;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050507; }
+        ::-webkit-scrollbar-thumb { background: #ec4899; border-radius: 10px; }
     </style>
 </head>
 <body>
-    <!-- Fallback if JS fails -->
-    <div id="loading-fallback" style="color: white; text-align: center; margin-top: 50px;">
-        <p>Loading Executive Presentation...</p>
-    </div>
 
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Simple components that don't need external animation libraries to be safe
-        const GradientText = ({ children }) => (
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8b5cf6] via-[#ec4899] to-[#ef4444]">
-                {children}
-            </span>
-        );
-
         const App = () => {
-            useEffect(() => {
-                // Hide fallback once loaded
-                document.getElementById('loading-fallback').style.display = 'none';
-            }, []);
-
             return (
-                <div className="min-h-screen">
-                    {/* Header Nav */}
-                    <nav className="fixed top-0 w-full z-50 bg-dgo-dark/80 backdrop-blur-md border-b border-white/10 py-4 px-8 flex justify-between items-center">
-                        <div className="font-extrabold text-xl tracking-tighter">DGO <span className="font-light text-gray-500">×</span> HIMATV</div>
-                        <div className="text-[10px] uppercase tracking-widest text-dgo-pink font-bold">FIFA World Cup 2026</div>
+                <div className="relative">
+                    {/* Floating Nav */}
+                    <nav className="fixed top-0 w-full z-[100] px-8 py-6 flex justify-between items-center bg-dgo-dark/80 backdrop-blur-xl border-b border-white/5">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-dgo-gradient rounded-xl flex items-center justify-center font-black text-white shadow-lg shadow-dgo-pink/20">D</div>
+                            <span className="font-extrabold text-2xl tracking-tighter uppercase">DGO <span className="font-light text-gray-500">×</span> HIMATV</span>
+                        </div>
+                        <div className="hidden lg:flex items-center gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">
+                            <a href="#principles" className="hover:text-dgo-pink transition-colors">Principles</a>
+                            <a href="#ownership" className="hover:text-dgo-pink transition-colors">Ownership</a>
+                            <a href="#joint" className="hover:text-dgo-pink transition-colors">Joint Ops</a>
+                            <a href="#governance" className="hover:text-dgo-pink transition-colors">Governance</a>
+                        </div>
                     </nav>
 
-                    {/* Hero Section */}
-                    <section className="h-screen flex flex-col justify-center items-center px-6 text-center relative">
-                        <div className="absolute w-[500px] h-[500px] bg-dgo-purple/10 blur-[120px] rounded-full" />
-                        <div className="relative z-10">
-                            <div className="inline-block py-1 px-4 border border-dgo-pink/30 rounded-full mb-6 bg-dgo-pink/5">
-                                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-dgo-pink">Strategy Framework</span>
+                    {/* 1. HERO SECTION */}
+                    <header className="relative min-h-screen flex flex-col justify-center items-center px-6 text-center pt-20">
+                        <div className="section-glow top-[-10%] left-[-10%]" />
+                        <div className="section-glow bottom-[10%] right-[-10%] !bg-dgo-red/5" />
+                        
+                        <div className="max-w-6xl mx-auto">
+                            <div className="inline-block px-5 py-2 mb-8 glass-card rounded-full">
+                                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-dgo-pink">Official Strategic Partnership</span>
                             </div>
-                            <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tighter leading-tight">
-                                <GradientText>DGO × Himalaya TV</GradientText><br/>
-                                <span className="text-white">Scope of Work</span>
+                            
+                            <h1 className="text-6xl md:text-[7rem] font-[900] leading-[0.9] tracking-tighter mb-8">
+                                <span className="text-white block">ONE PRODUCT</span>
+                                <span className="text-gradient block italic">DUAL PLATFORM</span>
                             </h1>
-                            <p className="text-gray-400 text-lg max-w-xl mx-auto font-light leading-relaxed">
-                                A unified "One Product, Dual Platform" partnership for the 
-                                FIFA World Cup 2026 in Nepal.
+                            
+                            <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed mb-12">
+                                Scope of Work for the joint broadcast and commercialization of the <br />
+                                <span className="text-white font-semibold">FIFA World Cup 2026 — Nepal Market.</span>
                             </p>
-                        </div>
-                    </section>
-
-                    {/* DGO Core Areas */}
-                    <section className="py-24 px-8 max-w-6xl mx-auto">
-                        <h2 className="text-3xl font-bold mb-16 text-center italic tracking-tight">DGO Core <GradientText>Ownership</GradientText></h2>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {[
-                                { t: "OTT Management", p: ["Full digital ecosystem ownership", "Adaptive streaming optimization", "Real-time uptime monitoring"] },
-                                { t: "Subscription & Revenue", p: ["Pricing & bundling strategies", "Payment gateway management", "Real-time revenue tracking"] },
-                                { t: "Digital Innovation", p: ["Localized commentary (Exclusive)", "Multi-feed/Dual-audio capabilities", "Interactive watch-alongs"] },
-                                { t: "Content Production", p: ["Digital-first match highlights", "Behind-the-scenes coverage", "Short-form social content"] },
-                                { t: "Customer Acquisition", p: ["Performance marketing leadership", "Early Bird Season Pass rollout", "Corporate bundling initiatives"] },
-                                { t: "Tech Readiness", p: ["High-traffic peak scaling", "Third-party integrations", "Robust redundancy systems"] }
-                            ].map((item, idx) => (
-                                <div key={idx} className="bg-dgo-card border border-white/5 p-8 rounded-2xl hover:border-dgo-pink/30 transition-all">
-                                    <h3 className="text-lg font-bold mb-4 text-white uppercase">{item.t}</h3>
-                                    <ul className="space-y-3">
-                                        {item.p.map((point, i) => (
-                                            <li key={i} className="text-gray-400 text-xs flex gap-2">
-                                                <span className="text-dgo-red">•</span> {point}
-                                            </li>
-                                        ))}
-                                    </ul>
+                            
+                            <div className="flex flex-wrap justify-center gap-6">
+                                <div className="px-8 py-4 glass-card rounded-2xl flex flex-col items-center">
+                                    <span className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Lead Linear</span>
+                                    <span className="font-bold text-white uppercase tracking-tighter">Himalaya TV</span>
                                 </div>
-                            ))}
-                        </div>
-                    </section>
-
-                    {/* Joint Section */}
-                    <section className="py-24 px-8 bg-white/5 border-y border-white/5">
-                        <div className="max-w-4xl mx-auto">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold italic mb-4">Joint <GradientText>Responsibility</GradientText></h2>
-                                <p className="text-gray-500 text-sm italic">Agreed Collaborative Workstreams</p>
+                                <div className="px-8 py-4 glass-card rounded-2xl flex flex-col items-center border-dgo-pink/30">
+                                    <span className="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Lead Digital</span>
+                                    <span className="font-bold text-dgo-pink uppercase tracking-tighter">DGO Ecosystem</span>
+                                </div>
                             </div>
-                            <div className="grid md:grid-cols-2 gap-4">
+                        </div>
+                    </header>
+
+                    {/* 2. GUIDING PRINCIPLES */}
+                    <section id="principles" className="py-32 px-8 max-w-7xl mx-auto border-t border-white/5">
+                        <div className="grid lg:grid-cols-12 gap-16 items-start">
+                            <div className="lg:col-span-4 sticky top-32">
+                                <h2 className="text-4xl font-black italic uppercase leading-none mb-6">
+                                    Guiding<br /><span className="text-gradient">Principles</span>
+                                </h2>
+                                <p className="text-gray-500 text-sm leading-relaxed">
+                                    This engagement operates as a joint partnership with clearly aligned commercial objectives and success metrics.
+                                </p>
+                            </div>
+                            <div className="lg:col-span-8 grid sm:grid-cols-2 gap-6">
                                 {[
-                                    "FIFA Brand Compliance & Governance",
-                                    "Official Press Meet & Launch Events",
-                                    "Shared War Room & Live Ops Management",
-                                    "Crisis & Incident Communication",
-                                    "Integrated Marketing Campaigns",
-                                    "Cross-Platform Partner Integrations"
-                                ].map((text, i) => (
-                                    <div key={i} className="p-5 bg-dgo-dark rounded-xl border border-white/10 flex items-center gap-4 group hover:border-dgo-pink/50 transition-all">
-                                        <div className="w-2 h-2 rounded-full bg-dgo-pink" />
-                                        <span className="text-sm font-semibold">{text}</span>
+                                    { t: "Joint Accountability", d: "Both parties remain jointly accountable for overall revenue performance, audience growth, and market impact." },
+                                    { t: "Revenue Focus", d: "Strategic decisions are guided by maximizing total revenue potential while ensuring full FIFA compliance." },
+                                    { t: "Active Collaboration", d: "Operating in a spirit of mutual respect, ensuring all key strategies are aligned prior to implementation." },
+                                    { t: "Unified Consistency", d: "Avoiding overlap or conflict in campaigns to protect the overall value of the joint ecosystem." }
+                                ].map((p, i) => (
+                                    <div key={i} className="p-8 glass-card rounded-3xl">
+                                        <h4 className="text-lg font-bold text-white mb-3 tracking-tight">{p.t}</h4>
+                                        <p className="text-gray-400 text-xs leading-relaxed">{p.d}</p>
                                     </div>
                                 ))}
                             </div>
                         </div>
                     </section>
 
-                    {/* Himalaya Section */}
-                    <section className="py-32 px-8 text-center bg-gradient-to-b from-transparent to-dgo-red/5">
-                        <h2 className="text-4xl font-bold mb-6 tracking-tighter text-white">Himalaya TV</h2>
-                        <div className="max-w-2xl mx-auto space-y-6">
-                            <p className="text-xl text-dgo-red font-semibold">Linear Broadcast Leadership</p>
-                            <p className="text-gray-400 leading-relaxed font-light">
-                                Providing nationwide television reach and acting as the 
-                                <strong> primary top-of-funnel driver</strong>. Managing linear inventory 
-                                and contributing to integrated sponsorship opportunities.
-                            </p>
+                    {/* 3. DGO CORE OWNERSHIP - DETAILED */}
+                    <section id="ownership" className="py-32 px-8 bg-white/[0.02]">
+                        <div className="max-w-7xl mx-auto text-center mb-20">
+                            <h2 className="text-5xl font-black italic uppercase mb-4 tracking-tighter">DGO <span className="text-gradient">Core Ownership</span></h2>
+                            <p className="text-gray-500 max-w-2xl mx-auto uppercase text-[10px] tracking-[0.4em] font-bold">End-to-End Digital Ecosystem Management</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                            
+                            {/* 2.1 Digital Broadcasting */}
+                            <div className="p-10 glass-card rounded-[2.5rem] relative overflow-hidden group">
+                                <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                                    <div className="w-16 h-16 rounded-full border-4 border-dgo-pink" />
+                                </div>
+                                <h3 className="text-[10px] font-black text-dgo-pink uppercase tracking-widest mb-4">2.1 Platform Mgmt</h3>
+                                <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-tighter">OTT Infrastructure</h4>
+                                <ul className="space-y-4">
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-pink mt-1">▶</span> 
+                                        <span>Delivery of high-quality live streaming across multiple devices and network conditions.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-pink mt-1">▶</span> 
+                                        <span>Optimization for adaptive streaming performance across varying bandwidths.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-pink mt-1">▶</span> 
+                                        <span>Real-time monitoring of uptime and proactive structured incident response.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* 2.2 Subscription & Revenue */}
+                            <div className="p-10 glass-card rounded-[2.5rem] border-white/20">
+                                <h3 className="text-[10px] font-black text-dgo-magenta uppercase tracking-widest mb-4">2.2 Commercial</h3>
+                                <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-tighter">Revenue Ecosystem</h4>
+                                <ul className="space-y-4">
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-magenta mt-1">▶</span> 
+                                        <span>Structuring of subscription products, pricing, and bundling strategies.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-magenta mt-1">▶</span> 
+                                        <span>Integration of all payment channels: Wallets, Telecom, and partner systems.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-magenta mt-1">▶</span> 
+                                        <span>Real-time tracking of KPIs: subscriber acquisition and funnel performance.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* 2.3 Brand Partnerships */}
+                            <div className="p-10 glass-card rounded-[2.5rem]">
+                                <h3 className="text-[10px] font-black text-dgo-red uppercase tracking-widest mb-4">2.3 Monetization</h3>
+                                <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-tighter">B2B & Partnerships</h4>
+                                <ul className="space-y-4">
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-red mt-1">▶</span> 
+                                        <span>Lead all monetization initiatives with primary focus on B2B subscriber acquisition.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-red mt-1">▶</span> 
+                                        <span>Strategic models for Telecoms, ISPs, and digital wallets.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-red mt-1">▶</span> 
+                                        <span>End-to-end partner outreach, structuring, and technical integration.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* 2.4 Digital Product Differentiation */}
+                            <div className="p-10 glass-card rounded-[2.5rem]">
+                                <h3 className="text-[10px] font-black text-white uppercase tracking-widest mb-4">2.4 Innovation</h3>
+                                <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-tighter">Digital Exclusive UX</h4>
+                                <ul className="space-y-4">
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-white mt-1">▶</span> 
+                                        <span className="font-bold text-white/80">Localized Commentary: exclusively available on DGO.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-white mt-1">▶</span> 
+                                        <span>Multi-feed or dual-audio capabilities and fan-driven engagement layers.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-white mt-1">▶</span> 
+                                        <span>Watch-along experiences to increase platform stickiness and session time.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* 2.5 Content Production */}
+                            <div className="p-10 glass-card rounded-[2.5rem]">
+                                <h3 className="text-[10px] font-black text-dgo-purple uppercase tracking-widest mb-4">2.5 Content</h3>
+                                <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-tighter">Digital First Assets</h4>
+                                <ul className="space-y-4">
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-purple mt-1">▶</span> 
+                                        <span className="font-bold text-white/80 italic">Exclusive Distribution: Match highlights available only to subscribed DGO users.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-purple mt-1">▶</span> 
+                                        <span>Short-form social content and behind-the-scenes coverage.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-purple mt-1">▶</span> 
+                                        <span>Objective: Drive traffic, retention, and subscription conversion beyond live matches.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {/* 2.7 Customer Acquisition */}
+                            <div className="p-10 glass-card rounded-[2.5rem]">
+                                <h3 className="text-[10px] font-black text-dgo-pink uppercase tracking-widest mb-4">2.7 Growth</h3>
+                                <h4 className="text-xl font-bold text-white mb-6 uppercase tracking-tighter">Funnel Ownership</h4>
+                                <ul className="space-y-4">
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-pink mt-1">▶</span> 
+                                        <span>Full ownership of performance marketing and conversion optimization.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-pink mt-1">▶</span> 
+                                        <span className="font-bold text-white/80 italic underline underline-offset-4">Early Bird Season Pass: Exclusively launched via DGO platform in the initial phase.</span>
+                                    </li>
+                                    <li className="text-gray-400 text-xs leading-relaxed flex gap-3">
+                                        <span className="text-dgo-pink mt-1">▶</span> 
+                                        <span>Corporate bundling initiatives targeting bulk subscription access in urban markets.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
                         </div>
                     </section>
 
-                    {/* Closing */}
-                    <footer className="py-32 px-8 text-center border-t border-white/5">
-                        <div className="max-w-3xl mx-auto bg-dgo-card p-12 rounded-[2rem] border border-white/10">
-                            <h2 className="text-3xl font-bold mb-6 italic leading-snug">
-                                A unified broadcast ecosystem, built on <br/>
-                                <GradientText>collaboration and commercial ambition.</GradientText>
+                    {/* 4. JOINT RESPONSIBILITY */}
+                    <section id="joint" className="py-32 px-8 max-w-7xl mx-auto">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div className="p-16 glass-card rounded-[3rem] border-dgo-pink/20 bg-gradient-to-br from-dgo-purple/10 to-transparent">
+                                <h3 className="text-4xl font-black italic uppercase mb-10 leading-none tracking-tight">Joint<br /><span className="text-gradient">Operations</span></h3>
+                                <div className="space-y-6">
+                                    {[
+                                        "Compliance with FIFA brand guidelines and governance",
+                                        "Joint execution of Press Meet & Official Launch Event",
+                                        "Unified narrative and coordinated communication across all media",
+                                        "Shared War Room and live operations structure for real-time monitoring",
+                                        "Crisis and incident communication protocols",
+                                        "Match Day Shows: Co-created and distributed on both platforms"
+                                    ].map((txt, i) => (
+                                        <div key={i} className="flex gap-4 items-start border-l border-white/10 pl-6 py-2">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-dgo-pink mt-2 shadow-[0_0_10px_#ec4899]" />
+                                            <p className="text-gray-300 text-sm font-medium">{txt}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-8">
+                                <div className="p-10 glass-card rounded-[3rem]">
+                                    <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4">Section 4</h4>
+                                    <h5 className="text-2xl font-bold mb-4 uppercase italic">Himalaya TV <span className="text-dgo-red">Coordinated Areas</span></h5>
+                                    <ul className="space-y-4">
+                                        <li className="text-gray-400 text-sm italic">• Lead linear broadcast execution ensuring nationwide reach.</li>
+                                        <li className="text-gray-400 text-sm italic">• Critical top-of-funnel driver for mass awareness.</li>
+                                        <li className="text-gray-400 text-sm italic">• Support brand partnerships through linear inventory.</li>
+                                    </ul>
+                                </div>
+                                <div className="p-10 glass-card rounded-[3rem] border-white/5 bg-white/[0.01]">
+                                    <h4 className="text-[10px] font-black text-gray-500 uppercase tracking-widest mb-4">Section 2.6</h4>
+                                    <h5 className="text-2xl font-bold mb-4 uppercase italic">Match Day <span className="text-dgo-magenta">Shows</span></h5>
+                                    <p className="text-gray-400 text-sm">Operated under a <span className="text-white font-bold">shared cost structure</span> with DGO leading digital adaptation and amplification across social platforms.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 5. GOVERNANCE */}
+                    <section id="governance" className="py-32 px-8 bg-white/[0.02]">
+                        <div className="max-w-5xl mx-auto glass-card rounded-[4rem] overflow-hidden">
+                            <div className="p-12 md:p-20 border-b border-white/5 text-center">
+                                <h2 className="text-4xl md:text-5xl font-black italic uppercase mb-4 tracking-tighter">Governance & <span className="text-gradient">Reporting</span></h2>
+                                <p className="text-gray-500 text-[10px] font-bold uppercase tracking-[0.5em]">Structured Operational Framework</p>
+                            </div>
+                            <div className="grid md:grid-cols-2">
+                                <div className="p-12 border-r border-white/5 space-y-8">
+                                    <div className="space-y-2">
+                                        <div className="text-3xl font-black tracking-tighter">WEEKLY</div>
+                                        <div className="text-xs uppercase tracking-widest text-dgo-pink">Performance Reviews</div>
+                                        <p className="text-gray-400 text-xs">Primary forum for course correction, revenue performance analysis, and subscriber growth alignment.</p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <div className="text-3xl font-black tracking-tighter">DAILY</div>
+                                        <div className="text-xs uppercase tracking-widest text-dgo-pink">Operational Reporting</div>
+                                        <p className="text-gray-400 text-xs">Real-time tracking of platform performance, incident logs, and execution status during match windows.</p>
+                                    </div>
+                                </div>
+                                <div className="p-12 space-y-8 bg-white/[0.01]">
+                                    <div className="space-y-2 text-right">
+                                        <div className="text-3xl font-black tracking-tighter uppercase">Clear Hierarchy</div>
+                                        <p className="text-gray-400 text-xs">Designated points of contact (POCs) for each workstream supported by an agreed escalation structure.</p>
+                                    </div>
+                                    <div className="space-y-2 text-right">
+                                        <div className="text-3xl font-black tracking-tighter uppercase">Total Visibility</div>
+                                        <p className="text-gray-400 text-xs">Full reporting visibility across all stakeholders to enable agile and coordinated execution throughout the tournament lifecycle.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* CLOSING */}
+                    <footer className="py-40 px-8 text-center relative">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="w-px h-24 bg-dgo-gradient mx-auto mb-12" />
+                            <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-10">
+                                A UNIFIED BROADCAST ECOSYSTEM<br />
+                                <span className="text-gradient">BUILT FOR SHARED SUCCESS.</span>
                             </h2>
-                            <div className="h-px w-20 bg-dgo-pink mx-auto mb-6" />
-                            <p className="text-[10px] tracking-[0.6em] uppercase text-gray-500 font-bold">Official Presentation 2026</p>
+                            <p className="text-gray-500 uppercase tracking-[0.6em] text-[10px] font-bold">DGO × Himalaya TV | Strategy Framework 2026</p>
                         </div>
                     </footer>
                 </div>
