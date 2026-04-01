@@ -19,7 +19,7 @@
                     colors: {
                         dgo: {
                             purple: '#8b5cf6', pink: '#ec4899', red: '#ef4444',
-                            canvas: '#050508'
+                            canvas: '#f8fafc', panel: '#ffffff'
                         }
                     }
                 }
@@ -29,50 +29,51 @@
 
     <style>
         html { scroll-behavior: smooth; }
-        body { background-color: #050508; color: #ffffff; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
+        body { background-color: #f8fafc; color: #0f172a; font-family: 'Montserrat', sans-serif; overflow-x: hidden; margin: 0; }
 
-        /* THEMATIC WATERMARK BACKGROUND */
+        /* SOFT THEMATIC BACKGROUND */
         .fixed-bg {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; pointer-events: none;
-            background: radial-gradient(circle at center, #0a0a12 0%, #050508 100%);
+            background: radial-gradient(circle at 0% 0%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
         }
         .trophy-watermark {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80vh; height: 80vh; opacity: 0.04; z-index: -1;
-            background-image: url('https://www.fifa.com/static-assets/fifacom-generic-trophy.png'); /* Official Silhouette Style */
+            width: 70vh; height: 70vh; opacity: 0.03; z-index: -1;
+            background-image: url('https://www.fifa.com/static-assets/fifacom-generic-trophy.png');
             background-repeat: no-repeat; background-position: center; background-size: contain;
-            filter: grayscale(100%) brightness(200%);
         }
 
         /* TEXT SYSTEM */
-        .h-mega { font-weight: 900; letter-spacing: -0.06em; text-transform: uppercase; line-height: 0.85; }
-        .h-strong { font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; }
+        .h-mega { font-weight: 900; letter-spacing: -0.06em; text-transform: uppercase; line-height: 0.85; color: #0f172a; }
+        .h-strong { font-weight: 900; letter-spacing: -0.01em; text-transform: uppercase; color: #0f172a; }
         .text-grad { 
             background: linear-gradient(90deg, #8b5cf6, #ec4899, #ef4444); 
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
         }
 
-        /* BENTO SYSTEM - Optimized for performance */
+        /* LIGHT BENTO SYSTEM */
         .bento {
-            background: rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(15, 23, 42, 0.05);
+            border-radius: 32px;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .bento:hover {
             border-color: #ec4899;
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px -20px rgba(139, 92, 246, 0.15);
         }
 
-        /* LIGHTWEIGHT MOTION */
-        .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        /* REVEAL */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.visible { opacity: 1; transform: translateY(0); }
 
         @media (max-width: 768px) {
-            .h-mega { font-size: 3.8rem !important; line-height: 0.95; }
-            .bento { padding: 24px !important; }
+            .h-mega { font-size: 3.5rem !important; line-height: 1; }
         }
     </style>
 </head>
@@ -97,13 +98,13 @@
             return (
                 <div className="relative w-full">
                     {/* NAVIGATION */}
-                    <nav className="fixed top-0 w-full z-[100] px-6 md:px-16 py-8 flex justify-between items-center backdrop-blur-md bg-dgo-canvas/40 border-b border-white/5">
+                    <nav className="fixed top-0 w-full z-[100] px-6 md:px-16 py-6 flex justify-between items-center backdrop-blur-md bg-white/60 border-b border-slate-200">
                         <div className="flex items-center gap-4 md:gap-8">
-                            <img src="logo1.png" className="h-7 md:h-11 w-auto" alt="DGO" />
-                            <div className="w-px h-6 bg-white/20"></div>
-                            <img src="logo2.png" className="h-7 md:h-11 w-auto" alt="Himalaya" />
+                            <img src="logo1.png" className="h-7 md:h-10 w-auto" alt="DGO" />
+                            <div className="w-[1.5px] h-6 bg-slate-300 mx-2"></div>
+                            <img src="logo2.png" className="h-7 md:h-10 w-auto" alt="Himalaya" />
                         </div>
-                        <div className="hidden lg:flex gap-12 font-bold text-[10px] uppercase tracking-[0.5em] text-gray-500">
+                        <div className="hidden lg:flex gap-12 font-bold text-[10px] uppercase tracking-[0.5em] text-slate-400">
                             <a href="#principles" className="hover:text-dgo-pink transition-all">Principles</a>
                             <a href="#ownership" className="hover:text-dgo-pink transition-all">DGO Scope</a>
                             <a href="#joint" className="hover:text-dgo-pink transition-all">Joint Ops</a>
@@ -114,36 +115,38 @@
                     {/* HERO */}
                     <header className="min-h-screen flex flex-col justify-center px-6 md:px-32">
                         <div className="reveal max-w-7xl">
-                            <h1 className="h-mega text-6xl md:text-[12rem]">
-                                <span className="block text-white">SCOPE OF</span>
+                            <h1 className="h-mega text-6xl md:text-[11rem]">
+                                <span className="block text-slate-900">SCOPE OF</span>
                                 <span className="block text-grad">WORK</span>
                             </h1>
                             <div className="flex items-center gap-6 md:gap-14 mt-12 md:mt-24">
-                                <div className="h-[2px] w-12 md:w-40 bg-dgo-pink"></div>
-                                <p className="text-gray-400 text-sm md:text-4xl font-light uppercase tracking-[0.4em] leading-tight">
-                                    FIFA 2026 — <span className="text-white font-black underline underline-offset-[12px] decoration-dgo-pink">NEPAL</span>
+                                <div className="h-[3px] w-12 md:w-40 bg-dgo-pink"></div>
+                                <p className="text-slate-500 text-sm md:text-4xl font-light uppercase tracking-[0.4em] leading-tight">
+                                    FIFA 2026 — <span className="text-slate-900 font-black">NEPAL Consortia</span>
                                 </p>
                             </div>
                         </div>
                     </header>
 
                     {/* 01. PRINCIPLES */}
-                    <section id="principles" className="py-32 md:py-60 px-6 md:px-32 border-t border-white/5 reveal">
+                    <section id="principles" className="py-32 md:py-60 px-6 md:px-32 border-t border-slate-100 reveal">
                         <div className="grid lg:grid-cols-12 gap-16 md:gap-24 items-start">
                             <div className="lg:col-span-5">
                                 <h2 className="h-strong text-4xl md:text-6xl mb-10 leading-none">01.<br /><span className="text-grad">Principles</span></h2>
-                                <p className="text-gray-400 text-xl font-light leading-relaxed">Clearly aligned commercial objectives and success metrics built on a <strong className="text-white font-bold italic-none">“One Product, Dual Platform”</strong> framework.</p>
+                                <p className="text-slate-600 text-xl font-light leading-relaxed">
+                                    Anchored on a <strong className="text-slate-900 font-bold uppercase tracking-tight italic-none">“One Product, Dual Platform”</strong> framework for the Nepal market.
+                                </p>
                             </div>
                             <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-8">
                                 {[
-                                    { t: "Commercial Alignment", d: "Aligned objectives to ensure total revenue potential across both partners." },
+                                    { t: "Commercial Alignment", d: "Aligned objectives across both parties to ensure total revenue potential." },
                                     { t: "Joint Accountability", d: "Jointly accountable for growth, performance, and overall market impact." },
                                     { t: "FIFA Compliance", d: "Strict adherence to FIFA rights, brand guidelines, and governance standards." },
-                                    { t: "Consortium Synergy", d: "Avoiding overlap or conflict in campaigns to protect joint ecosystem value." }
+                                    { t: "Operational Synergy", d: "Clear delineation of ownership to ensure maximum operational efficiency." }
                                 ].map((item, i) => (
                                     <div key={i} className="p-10 bento">
                                         <h4 className="h-strong text-[11px] text-dgo-pink mb-4 tracking-[0.3em]">{item.t}</h4>
-                                        <p className="text-gray-400 text-xs leading-relaxed uppercase font-bold tracking-wide">{item.d}</p>
+                                        <p className="text-slate-500 text-xs leading-relaxed uppercase font-bold tracking-wide">{item.d}</p>
                                     </div>
                                 ))}
                             </div>
@@ -151,51 +154,51 @@
                     </section>
 
                     {/* 02. DGO SCOPE - BENTO GRID */}
-                    <section id="ownership" className="py-32 md:py-60 px-6 md:px-32 bg-white/[0.01]">
+                    <section id="ownership" className="py-32 md:py-60 px-6 md:px-32 bg-slate-50/50">
                         <div className="mb-24 reveal">
-                            <h2 className="h-strong text-5xl md:text-8xl mb-4">DGO <span className="text-grad italic-none">Scope</span></h2>
-                            <p className="text-gray-500 uppercase tracking-[0.6em] text-[10px] font-black">Consortium Digital Lead</p>
+                            <h2 className="h-strong text-5xl md:text-8xl mb-4 uppercase">DGO <span className="text-grad">Scope</span></h2>
+                            <p className="text-slate-400 uppercase tracking-[0.6em] text-[10px] font-black">Digital Ecosystem Management</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-6 gap-8 reveal">
                             {/* Card 1: Broadcast */}
-                            <div className="bento md:col-span-4 p-10 md:p-16 border-dgo-pink/20">
+                            <div className="bento md:col-span-4 p-10 md:p-16">
                                 <div className="text-4xl mb-12">🌐</div>
                                 <h3 className="h-strong text-2xl md:text-5xl mb-8 leading-none uppercase">Digital Broadcasting</h3>
-                                <p className="text-gray-400 text-sm md:text-xl font-light leading-relaxed">
-                                    Full ownership of the digital broadcasting ecosystem and OTT infrastructure. 
-                                    Adaptive streaming optimized for high-quality viewing across all 
-                                    bandwidth environments. Real-time monitoring for uninterrupted service.
+                                <p className="text-slate-600 text-sm md:text-xl font-light leading-relaxed">
+                                    Full ownership of the OTT streaming infrastructure. 
+                                    Adaptive performance optimized for consistent quality across all 
+                                    bandwidth environments. Continuous monitoring for uninterrupted service.
                                 </p>
                             </div>
 
                             {/* Card 2: Revenue */}
-                            <div className="bento md:col-span-2 p-10">
-                                <div className="text-4xl mb-12">💰</div>
-                                <h3 className="h-strong text-xl mb-6 uppercase tracking-tighter">Revenue & SUBS</h3>
-                                <p className="text-gray-500 text-[11px] leading-loose font-black uppercase tracking-widest">
-                                    Full pricing control, bundling strategies, and integrated payment channel management. 
-                                    Real-time tracking of funnel performance.
+                            <div className="bento md:col-span-2 p-10 bg-white shadow-2xl">
+                                <div className="text-4xl mb-12">💳</div>
+                                <h3 className="h-strong text-xl mb-6 uppercase tracking-tighter">Revenue Ops</h3>
+                                <p className="text-slate-400 text-[11px] leading-loose font-black uppercase tracking-widest">
+                                    Full pricing control and payment channel management. 
+                                    Real-time tracking of funnel performance and subscriber acquisition.
                                 </p>
                             </div>
 
                             {/* Card 3: Innovation */}
                             <div className="bento md:col-span-3 p-10 md:p-12">
-                                <div className="text-4xl mb-12">✨</div>
-                                <h3 className="h-strong text-3xl mb-6 uppercase text-grad">Innovation</h3>
-                                <p className="text-gray-400 text-sm font-light leading-relaxed">
-                                    Exclusive <strong className="text-white underline decoration-dgo-pink decoration-2">localized commentary</strong>. 
-                                    Multi-feed, dual-audio, and fan-driven watch-along experiences for platform stickiness.
+                                <div className="text-4xl mb-12 text-dgo-purple">✨</div>
+                                <h3 className="h-strong text-3xl mb-6 uppercase">Product Innovation</h3>
+                                <p className="text-slate-600 text-sm font-light leading-relaxed">
+                                    Exclusive <strong className="text-slate-900 font-bold underline decoration-dgo-pink decoration-2 underline-offset-4">localized commentary</strong>. 
+                                    Multi-feed views, dual-audio, and fan-driven watch-along interactive formats.
                                 </p>
                             </div>
 
                             {/* Card 4: Acquisition */}
-                            <div className="bento md:col-span-3 p-10 md:p-12 border-dgo-red/20">
+                            <div className="bento md:col-span-3 p-10 md:p-12">
                                 <div className="text-4xl mb-12 text-dgo-red">🚀</div>
                                 <h3 className="h-strong text-3xl mb-6 uppercase text-dgo-red">Acquisition</h3>
-                                <p className="text-gray-400 text-sm font-light leading-relaxed italic-none">
+                                <p className="text-slate-600 text-sm font-light leading-relaxed">
                                     Performance marketing lead. The <strong>Early Bird Season Pass</strong> launched exclusively 
-                                    via DGO as the primary transaction touchpoint.
+                                    via DGO as the primary transaction and conversion touchpoint.
                                 </p>
                             </div>
                         </div>
@@ -204,27 +207,27 @@
                     {/* 03. JOINT & HIMALAYA */}
                     <section id="joint" className="py-32 md:py-60 px-6 md:px-32 reveal">
                         <div className="grid lg:grid-cols-2 gap-10 md:gap-20">
-                            <div className="p-10 md:p-20 bento">
-                                <h2 className="h-strong text-4xl mb-16 uppercase">Joint <span className="text-grad">Ops</span></h2>
+                            <div className="p-10 md:p-20 bento border-slate-200">
+                                <h2 className="h-strong text-4xl mb-16 uppercase">Joint <span className="text-grad">Execution</span></h2>
                                 <div className="space-y-6">
                                     {[
-                                        "FIFA Brand Governance & Compliance",
+                                        "FIFA Brand Governance & Asset Alignment",
                                         "Joint Press Meet & Official Launch Event",
                                         "Shared War Room & Operational Hierarchy",
                                         "Crisis & Incident Communication Protocols",
-                                        "Co-branded Match Day Flagship Shows"
+                                        "Match Day Shows (Co-created & Distributed)"
                                     ].map((t, i) => (
-                                        <div key={i} className="flex items-center gap-6 py-5 border-b border-white/5 group transition-all">
-                                            <div className="w-2 h-2 rounded-full bg-dgo-pink shadow-[0_0_10px_#ec4899]"></div>
-                                            <span className="h-strong text-[11px] tracking-[0.2em] opacity-80">{t}</span>
+                                        <div key={i} className="flex items-center gap-6 py-5 border-b border-slate-100 group transition-all">
+                                            <div className="w-2 h-2 rounded-full bg-dgo-pink"></div>
+                                            <span className="h-strong text-[11px] tracking-widest text-slate-500">{t}</span>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                            <div className="p-10 md:p-20 bento border-dgo-red/30 bg-dgo-red/[0.03]">
-                                <img src="logo2.png" className="h-10 md:h-14 mb-16" />
-                                <h3 className="h-strong text-2xl text-dgo-red mb-10 uppercase tracking-widest underline decoration-2 decoration-dgo-red underline-offset-8">Broadcast Leadership</h3>
-                                <ul className="space-y-12 text-gray-400 text-[11px] md:text-[13px] font-black uppercase tracking-[0.3em] leading-relaxed">
+                            <div className="p-10 md:p-20 bento bg-slate-900">
+                                <img src="logo2.png" className="h-10 md:h-12 mb-16 brightness-200" />
+                                <h3 className="h-strong text-2xl text-white mb-10 uppercase tracking-widest italic-none">Linear Leadership</h3>
+                                <ul className="space-y-12 text-slate-400 text-[11px] md:text-[13px] font-black uppercase tracking-[0.3em] leading-relaxed">
                                     <li className="flex gap-4"><span className="text-dgo-red">01</span> Primarily lead linear broadcast execution ensuring nationwide reach.</li>
                                     <li className="flex gap-4"><span className="text-dgo-red">02</span> Acting as a critical top-of-funnel driver for mass awareness.</li>
                                     <li className="flex gap-4"><span className="text-dgo-red">03</span> Support partnerships through linear inventory contribution.</li>
@@ -233,24 +236,24 @@
                         </div>
                     </section>
 
-                    {/* 04. GOVERNANCE - SYMMETRICAL ALIGNMENT */}
+                    {/* 04. GOVERNANCE - SYMMETRICAL LIGHT MODULES */}
                     <section id="governance" className="py-32 md:py-60 px-6 md:px-32 text-center reveal">
-                        <h2 className="h-strong text-4xl md:text-8xl mb-24 md:mb-40 tracking-tighter">REPORTING <span className="text-gray-700">&</span> GOVERNANCE</h2>
+                        <h2 className="h-strong text-4xl md:text-8xl mb-24 md:mb-40 tracking-tighter uppercase">Reporting <span className="text-slate-300">&</span> Governance</h2>
                         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
                             {/* Weekly Card */}
                             <div className="p-12 md:p-24 bento flex flex-col items-center justify-center text-center">
                                 <h4 className="h-strong text-6xl md:text-8xl mb-6 text-grad leading-none">WEEKLY</h4>
-                                <div className="text-[10px] md:text-[12px] font-black text-gray-500 tracking-[0.6em] mb-12 uppercase">Strategic Alignment Forum</div>
-                                <p className="text-gray-400 text-xs md:text-sm leading-loose uppercase font-bold tracking-widest max-w-sm">
-                                    Revenue performance, subscriber growth, and marketing effectiveness forum.
+                                <div className="text-[10px] md:text-[12px] font-black text-slate-400 tracking-[0.6em] mb-12 uppercase">Strategic Review Forum</div>
+                                <p className="text-slate-500 text-xs md:text-sm leading-loose uppercase font-bold tracking-widest max-w-sm">
+                                    Revenue performance, subscriber growth, and marketing effectiveness review.
                                 </p>
                             </div>
                             
                             {/* Daily Card */}
-                            <div className="p-12 md:p-24 bento flex flex-col items-center justify-center text-center border-white/15">
+                            <div className="p-12 md:p-24 bento flex flex-col items-center justify-center text-center border-dgo-pink/10">
                                 <h4 className="h-strong text-6xl md:text-8xl mb-6 text-grad leading-none">DAILY</h4>
-                                <div className="text-[10px] md:text-[12px] font-black text-gray-500 tracking-[0.6em] mb-12 uppercase">Operational War Room</div>
-                                <p className="text-gray-400 text-xs md:text-sm leading-loose uppercase font-bold tracking-widest max-w-sm">
+                                <div className="text-[10px] md:text-[12px] font-black text-slate-400 tracking-[0.6em] mb-12 uppercase">Operational War Room</div>
+                                <p className="text-slate-500 text-xs md:text-sm leading-loose uppercase font-bold tracking-widest max-w-sm">
                                     Real-time tracking of platform performance, incident logs, and execution status.
                                 </p>
                             </div>
@@ -259,16 +262,16 @@
 
                     {/* FOOTER */}
                     <footer className="py-40 md:py-80 px-6 text-center reveal">
-                        <h2 className="h-mega text-5xl md:text-[10rem] mb-24 leading-none">
-                            SHARED VISION.<br />
-                            <span className="text-grad italic-none">UNIVERSAL SUCCESS.</span>
+                        <h2 className="h-mega text-5xl md:text-[10rem] mb-24 leading-none text-slate-900">
+                            ONE PRODUCT.<br />
+                            <span className="text-grad italic-none">SHARED AMBITION.</span>
                         </h2>
-                        <div className="flex justify-center items-center gap-10 md:gap-24 opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0">
+                        <div className="flex justify-center items-center gap-10 md:gap-24 opacity-60">
                             <img src="logo1.png" className="h-8 md:h-14" />
-                            <div className="w-[1px] h-8 bg-white/20"></div>
+                            <div className="w-[1.5px] h-8 bg-slate-200"></div>
                             <img src="logo2.png" className="h-8 md:h-14" />
                         </div>
-                        <p className="mt-24 text-[10px] text-gray-800 tracking-[1.5em] font-black uppercase">Consortium Protocol — Nepal 2026</p>
+                        <p className="mt-24 text-[10px] text-slate-300 tracking-[1.5em] font-black uppercase">Consortium Protocol — Nepal 2026</p>
                     </footer>
                 </div>
             );
